@@ -1,9 +1,9 @@
 //
-//  AppDelegate.m
+//
 //  AutoClick
 //
-//  Created by lucas on 3/14/15.
-//  Copyright (c) 2015 lucas. All rights reserved.
+//  Created by xzb on 2017/11/24.
+//  Copyright © 2017年 lucas. All rights reserved.
 //
 
 #import "AppDelegate.h"
@@ -132,21 +132,21 @@
     }
     NSLog(@"------------------------------------ 一次点击开始\n剩余执行队列:\n%@",dataArray);
     {
-        ZBMouseTapModel *model = [dataArray firstObject];
-        NSLog(@"-->准备点击%@",model);
-        CGPoint mousePoint = model.point;
-        CGEventRef click1_down = CGEventCreateMouseEvent(NULL, kCGEventLeftMouseDown, mousePoint, kCGMouseButtonLeft);
-        CGEventPost(kCGHIDEventTap, click1_down);
-        CFRelease(click1_down);
-        
-        __weak typeof(self) weakSelf = self;
-        CGFloat interval = [@(model.time) floatValue]/10.0f;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(interval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            CGEventRef click1_up = CGEventCreateMouseEvent(NULL, kCGEventLeftMouseUp, mousePoint, kCGMouseButtonLeft);
-            CGEventPost(kCGHIDEventTap, click1_up);
-            CFRelease(click1_up);
-            [weakSelf completeOnceEventWithDataArray:dataArray];
-        });
+ZBMouseTapModel *model = [dataArray firstObject];
+NSLog(@"-->准备点击%@",model);
+CGPoint mousePoint = model.point;
+CGEventRef click1_down = CGEventCreateMouseEvent(NULL, kCGEventLeftMouseDown, mousePoint, kCGMouseButtonLeft);
+CGEventPost(kCGHIDEventTap, click1_down);
+CFRelease(click1_down);
+
+__weak typeof(self) weakSelf = self;
+CGFloat interval = [@(model.time) floatValue]/10.0f;
+dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(interval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    CGEventRef click1_up = CGEventCreateMouseEvent(NULL, kCGEventLeftMouseUp, mousePoint, kCGMouseButtonLeft);
+    CGEventPost(kCGHIDEventTap, click1_up);
+    CFRelease(click1_up);
+    [weakSelf completeOnceEventWithDataArray:dataArray];
+});
         
     }
 }
